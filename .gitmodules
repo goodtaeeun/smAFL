@@ -1,0 +1,3 @@
+[submodule "smAFL"]
+	path = smAFL
+	url = git@github.com:goodtaeeun/AFLGOPT.git
