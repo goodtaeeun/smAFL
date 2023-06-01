@@ -3,6 +3,10 @@ from triage import *
 # (target bin, target cmdline, input src, additional option, triage function)
 # fuzz targets each for atoi, strcmp, strstr
 FUZZ_TARGETS = [
+    ("cxxfilt-2016-4487-original", "", "stdin", check_cxxfilt_2016_4487_original),
+    ("cxxfilt-2016-4489-original", "", "stdin", check_cxxfilt_2016_4489_original),
+    ("cxxfilt-2016-4490-original", "", "stdin", check_cxxfilt_2016_4490_original),
+    ("cxxfilt-2016-4492-original", "", "stdin", check_cxxfilt_2016_4492_original),
     ("cxxfilt-2016-4487-atoi", "", "stdin", check_cxxfilt_2016_4487),
     ("cxxfilt-2016-4489-atoi", "", "stdin", check_cxxfilt_2016_4489),
     ("cxxfilt-2016-4490-atoi", "", "stdin", check_cxxfilt_2016_4490),

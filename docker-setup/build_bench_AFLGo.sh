@@ -21,7 +21,7 @@ function build_with_AFLGo() {
         mkdir -p /benchmark/temp
         # SUBJECT=$PWD
         TMP_DIR=/benchmark/temp
-        cp /benchmark/target/stack-trace/$BIN_NAME/$BUG_NAME $TMP_DIR/BBtargets.txt
+        cp /benchmark/target/stack-trace/$BIN_NAME/$BUG_NAME-$STR_TYPE $TMP_DIR/BBtargets.txt
 
         ADDITIONAL="-targets=$TMP_DIR/BBtargets.txt \
                     -outdir=$TMP_DIR -flto -fuse-ld=gold \
@@ -52,5 +52,14 @@ function build_with_AFLGo() {
 
 # Build with AFLGo
 mkdir -p /benchmark/bin/AFLGo
-build_with_AFLGo "binutils-2.26" \
+build_with_AFLGo "binutils-2.26" "original" \
+    "cxxfilt 2016-4487 2016-4489 2016-4490 2016-4492"
+
+build_with_AFLGo "binutils-2.26" "strcmp" \
+    "cxxfilt 2016-4487 2016-4489 2016-4490 2016-4492"
+
+build_with_AFLGo "binutils-2.26" "strstr" \
+    "cxxfilt 2016-4487 2016-4489 2016-4490 2016-4492"
+
+build_with_AFLGo "binutils-2.26" "atoi" \
     "cxxfilt 2016-4487 2016-4489 2016-4490 2016-4492"
