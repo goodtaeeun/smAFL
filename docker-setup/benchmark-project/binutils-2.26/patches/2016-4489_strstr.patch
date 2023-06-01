@@ -1,0 +1,18 @@
+--- libiberty/cplus-dem.c	2023-06-01 11:32:13.051217396 +0900
++++ /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/cplus-dem.c	2023-06-01 12:44:14.887945707 +0900
+@@ -2989,6 +2989,15 @@
+ 	    default:
+ 	      if (ISDIGIT((unsigned char)*mangled[0]))
+ 		{
++      char num_str[100];
++      int i = 0;
++      for (; ISDIGIT(*(*mangled+i)); i++)
++        num_str[i] = *(*mangled+i);
++      num_str[i] = '\0';
++
++      if (!strstr(num_str,"1234"))
++        exit(0);
++        
+ 		  n = consume_count(mangled);
+ 		  /* We may be seeing a too-large size, or else a
+ 		     ".<digits>" indicating a static local symbol.  In

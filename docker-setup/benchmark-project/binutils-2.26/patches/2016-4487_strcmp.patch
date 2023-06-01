@@ -1,0 +1,21 @@
+--- libiberty/cplus-dem.c	2023-06-01 11:32:13.051217396 +0900
++++ /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/cplus-dem.c	2023-06-01 12:30:38.368098283 +0900
+@@ -1487,7 +1487,17 @@
+ 	      oldmangled = *mangled;
+ 	    }
+           work->temp_start = -1; /* uppermost call to demangle_class */
+-	  success = demangle_class (work, mangled, declp);
++
++    char num_str[100];
++    int i = 0;
++    for (; ISDIGIT(*(*mangled+i)); i++)
++      num_str[i] = *(*mangled+i);
++    num_str[i] = '\0';
++
++    if (!strcmp(num_str, "123456"))
++      success = demangle_class (work, mangled, declp);
++    else
++      exit(0);
+ 	  if (success)
+ 	    {
+ 	      remember_type (work, oldmangled, *mangled - oldmangled);

@@ -1,0 +1,18 @@
+--- libiberty/cp-demangle.c	2023-06-01 11:32:24.343317035 +0900
++++ /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/cp-demangle.c	2023-06-01 14:00:03.056337627 +0900
+@@ -1605,6 +1605,15 @@
+ {
+   long len;
+   struct demangle_component *ret;
++  
++  char num_str[100];
++  int i = 0;
++  for (; IS_DIGIT(*(di->n+i)); i++)
++    num_str[i] = *(di->n+i);
++  num_str[i] = '\0';
++  
++  if (strcmp(num_str,"86000000000000000000000"))
++    exit(0);
+ 
+   len = d_number (di);
+   if (len <= 0)

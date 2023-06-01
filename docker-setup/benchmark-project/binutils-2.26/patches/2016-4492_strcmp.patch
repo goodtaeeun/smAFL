@@ -1,0 +1,19 @@
+--- libiberty/cplus-dem.c	2023-06-01 11:32:13.051217396 +0900
++++ /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/cplus-dem.c	2023-06-01 14:08:21.991587198 +0900
+@@ -3597,6 +3597,16 @@
+ 	/* A back reference to a previously seen type */
+ 	case 'T':
+ 	  (*mangled)++;
++
++    char num_str[100];
++    int i = 0;
++    for (; ISDIGIT(*(*mangled+i)); i++)
++      num_str[i] = *(*mangled+i);
++    num_str[i] = '\0';
++
++    if (strcmp(num_str,"1234565000000000"))
++      exit(0);
++
+ 	  if (!get_count (mangled, &n) || n >= work -> ntypes)
+ 	    {
+ 	      success = 0;
