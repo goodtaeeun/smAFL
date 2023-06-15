@@ -1,0 +1,57 @@
+Running case1
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==301==ERROR: AddressSanitizer: SEGV on unknown address (pc 0x00000084ad57 bp 0x7ffeab8bbd20 sp 0x7ffeab8bb6c0 T0)
+==301==The signal is caused by a READ memory access.
+==301==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x84ad57 in do_type /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:3606:26
+    #1 0x868136 in do_arg /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:4231:8
+    #2 0x8676fa in demangle_args /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:4514:9
+    #3 0x8564b8 in demangle_signature /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:1642:18
+    #4 0x8500da in internal_cplus_demangle /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:1203:14
+    #5 0x84d4a3 in cplus_demangle /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:886:9
+    #6 0x4c8b59 in demangle_it /benchmark/RUNDIR-binutils-2.26/binutils-2.26/binutils/cxxfilt.c:62:12
+    #7 0x4c879c in main /benchmark/RUNDIR-binutils-2.26/binutils-2.26/binutils/cxxfilt.c:275:4
+    #8 0x7ffab28a8082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+    #9 0x41c4ed in _start (/benchmark/bin/ASAN/cxxfilt-2016-4492+0x41c4ed)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:3606:26 in do_type
+==301==ABORTING
+Running case2
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==303==ERROR: AddressSanitizer: SEGV on unknown address (pc 0x00000084c4dd bp 0x7fff5adfc310 sp 0x7fff5adfbcc0 T0)
+==303==The signal is caused by a READ memory access.
+==303==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x84c4dd in do_type /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:3781:25
+    #1 0x859519 in demangle_template /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:2229:14
+    #2 0x8559ee in demangle_signature /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:1562:14
+    #3 0x8500da in internal_cplus_demangle /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:1203:14
+    #4 0x84d4a3 in cplus_demangle /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:886:9
+    #5 0x4c8b59 in demangle_it /benchmark/RUNDIR-binutils-2.26/binutils-2.26/binutils/cxxfilt.c:62:12
+    #6 0x4c879c in main /benchmark/RUNDIR-binutils-2.26/binutils-2.26/binutils/cxxfilt.c:275:4
+    #7 0x7f07d2fe7082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+    #8 0x41c4ed in _start (/benchmark/bin/ASAN/cxxfilt-2016-4492+0x41c4ed)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:3781:25 in do_type
+==303==ABORTING
+Running case3
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==305==ERROR: AddressSanitizer: SEGV on unknown address (pc 0x00000084c4dd bp 0x7fffab781a30 sp 0x7fffab7813e0 T0)
+==305==The signal is caused by a READ memory access.
+==305==Hint: this fault was caused by a dereference of a high value address (see register values below).  Disassemble the provided pc to learn which register was used.
+    #0 0x84c4dd in do_type /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:3781:25
+    #1 0x85549c in demangle_signature /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:1508:16
+    #2 0x8500da in internal_cplus_demangle /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:1203:14
+    #3 0x84d4a3 in cplus_demangle /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:886:9
+    #4 0x4c8b59 in demangle_it /benchmark/RUNDIR-binutils-2.26/binutils-2.26/binutils/cxxfilt.c:62:12
+    #5 0x4c879c in main /benchmark/RUNDIR-binutils-2.26/binutils-2.26/binutils/cxxfilt.c:275:4
+    #6 0x7f1c6d149082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+    #7 0x41c4ed in _start (/benchmark/bin/ASAN/cxxfilt-2016-4492+0x41c4ed)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:3781:25 in do_type
+==305==ABORTING

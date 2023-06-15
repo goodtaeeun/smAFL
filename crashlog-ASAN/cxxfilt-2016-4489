@@ -1,0 +1,15 @@
+=================================================================
+==295==ERROR: AddressSanitizer: negative-size-param: (size=-1)
+    #0 0x496564 in __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:22:3
+    #1 0x85a092 in string_appendn /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:4839:7
+    #2 0x8512e8 in gnu_special /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:3007:8
+    #3 0x84ffd1 in internal_cplus_demangle /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:1190:14
+    #4 0x84d4a3 in cplus_demangle /benchmark/RUNDIR-binutils-2.26/binutils-2.26/libiberty/./cplus-dem.c:886:9
+    #5 0x4c8b59 in demangle_it /benchmark/RUNDIR-binutils-2.26/binutils-2.26/binutils/cxxfilt.c:62:12
+    #6 0x4c879c in main /benchmark/RUNDIR-binutils-2.26/binutils-2.26/binutils/cxxfilt.c:275:4
+    #7 0x7fd69e262082 in __libc_start_main /build/glibc-SzIz7B/glibc-2.31/csu/../csu/libc-start.c:308:16
+    #8 0x41c4ed in _start (/benchmark/bin/ASAN/cxxfilt-2016-4489+0x41c4ed)
+
+0x00000127f26f is located 15 bytes inside of global variable 'mbuffer' defined in 'cxxfilt.c:259:19' (0x127f260) of size 32767
+SUMMARY: AddressSanitizer: negative-size-param /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_memintrinsics.cpp:22:3 in __asan_memcpy
+==295==ABORTING
