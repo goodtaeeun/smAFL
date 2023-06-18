@@ -18,14 +18,10 @@ FUZZ_TARGETS = [
 ]
 
 
-def generate_fuzzing_worklist(benchmark, iteration):
+def generate_fuzzing_worklist( iteration):
     worklist = []
-    if benchmark == "all":
-        TARGETS = FUZZ_TARGETS
-    else:
-        TARGETS = [t for t in FUZZ_TARGETS if t[0] == benchmark]
 
-    for (targ_prog, cmdline, src, _) in TARGETS:
+    for (targ_prog, cmdline, src, _) in FUZZ_TARGETS:
         if src not in ["stdin", "file"]:
             print("Invalid input source specified: %s" % src)
             exit(1)
