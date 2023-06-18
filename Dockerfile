@@ -25,6 +25,10 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmak
     rm cmake-$CMAKE_VERSION-Linux-x86_64.sh && \
     rm -rf /usr/local/doc/cmake /usr/local/bin/cmake-gui
 
+COPY docker-setup/checkout_build_install_llvm.sh /root/
+RUN /root/checkout_build_install_llvm.sh
+RUN rm /root/checkout_build_install_llvm.sh
+
 # Install packages needed for fuzzers and benchmark
 RUN apt-get update && \
     apt-get install -yy \
@@ -43,11 +47,7 @@ RUN apt-get update && \
       # For lrzip
       libbz2-dev liblzo2-dev \
       # For 32bit binaries
-      gcc-multilib \
-      # install clang
-      clang-12 llvm-12-dev
-
-ENV PATH="/usr/lib/llvm-12/bin:/usr/lib/llvm-12/lib:$PATH"
+      gcc-multilib 
 
 # Create a fuzzer directory and setup fuzzers there.
 RUN mkdir /fuzzer
