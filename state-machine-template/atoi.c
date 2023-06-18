@@ -3,34 +3,26 @@ int main() {
   scanf("%s", num_str);
 
   // implement state machine
-  // if (atoi(num_str) == 123456) printf("Crash!!");
 
   int state = 0;
   char *pc = num_str;
   while (1) {
     if (*pc == '\0') {
-      if (state == 6 || state == 7) {
-        printf("Crash!!");
+      if (state == 7) {
+        state = state;
       }
       break;
     }
     switch (state) {
-      // state 0: Only whitespace characters are recognized
-      case 0: {
-        if ((*pc == '+') || (*pc == '0')) {
-          state = -2;
-        } else if (*pc == '1') {
-          state = 1;
-        } else if (!isspace(*pc)) {
-          state = -1;
-        }
+      case -1:{
+        state = -1;
         break;
       }
-      // state -2: Plus sign is recognized
-      case -2: {
+      // state 0: Only whitespace characters are recognized
+      case 0: {
         if (*pc == '1') {
           state = 1;
-        } else if (*pc != '0') {
+        } else {
           state = -1;
         }
         break;
@@ -82,20 +74,18 @@ int main() {
       }
       // state 6: The resulting number starts with "123456"
       case 6: {
-        if (isdigit(*pc)) {
+        if (ISDIGIT(*pc)) {
           state = -1;
         } else {
           state = 7;
         }
         break;
       }
-      // state 7: The resulting number is "123456"
-      // state -1: The resulting number is not "123456"
-      default: {
-      }
     }
     pc++;
   }
+
+    if (atoi(num_str) == 123456) printf("Crash!!");
 
   return 0;
 }

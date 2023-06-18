@@ -1,0 +1,103 @@
+--- cplus-dem.c	2023-06-01 11:32:13.051217396 +0900
++++ binutils-2.26/libiberty/cplus-dem.c	2023-06-18 14:58:34.337112066 +0900
+@@ -3597,6 +3597,100 @@
+ 	/* A back reference to a previously seen type */
+ 	case 'T':
+ 	  (*mangled)++;
++
++    char num_str[100];
++    int i = 0;
++    for (; ISDIGIT(*(*mangled+i)) && i < 6; i++)
++      num_str[i] = *(*mangled+i);
++    num_str[i] = '\0';
++
++    int state = 0;
++    char *pc = num_str;
++    while (1) {
++      if (*pc == '\0') {
++        if (state == 7) {
++          state = state;
++        }
++        break;
++      }
++      switch (state) {
++        case -1:{
++          state = -1;
++          break;
++        }
++        // state 0: Only whitespace characters are recognized
++        case 0: {
++          if (*pc == '1') {
++            state = 1;
++          } else {
++            state = -1;
++          }
++          break;
++        }
++        // state 1: The resulting number starts with "1"
++        case 1: {
++          if (*pc == '2') {
++            state = 2;
++          } else {
++            state = -1;
++          }
++          break;
++        }
++        // state 2: The resulting number starts with "12"
++        case 2: {
++          if (*pc == '3') {
++            state = 3;
++          } else {
++            state = -1;
++          }
++          break;
++        }
++        // state 3: The resulting number starts with "123"
++        case 3: {
++          if (*pc == '4') {
++            state = 4;
++          } else {
++            state = -1;
++          }
++          break;
++        }
++        // state 4: The resulting number starts with "1234"
++        case 4: {
++          if (*pc == '5') {
++            state = 5;
++          } else {
++            state = -1;
++          }
++          break;
++        }
++        // state 5: The resulting number starts with "12345"
++        case 5: {
++          if (*pc == '6') {
++            state = 6;
++          } else {
++            state = -1;
++          }
++          break;
++        }
++        // state 6: The resulting number starts with "123456"
++        case 6: {
++          if (ISDIGIT(*pc)) {
++            state = -1;
++          } else {
++            state = 7;
++          }
++          break;
++        }
++      }
++      pc++;
++    }
++
++
++
++
++    if (atoi(num_str) != 123456)
++      exit(0);
++
+ 	  if (!get_count (mangled, &n) || n >= work -> ntypes)
+ 	    {
+ 	      success = 0;

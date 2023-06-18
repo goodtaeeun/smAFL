@@ -23,14 +23,7 @@ function build_with_ASAN() {
 
 # Build with ASAN only
 mkdir -p /benchmark/bin/ASAN
+
+export TOOL="ASAN"
 build_with_ASAN "binutils-2.26" "original" \
-    "cxxfilt 2016-4487 2016-4489 2016-4490 2016-4492"
-
-build_with_ASAN "binutils-2.26" "strcmp" \
-    "cxxfilt 2016-4487 2016-4489 2016-4490 2016-4492"
-
-build_with_ASAN "binutils-2.26" "strstr" \
-    "cxxfilt 2016-4487 2016-4489 2016-4490 2016-4492"
-
-build_with_ASAN "binutils-2.26" "atoi" \
     "cxxfilt 2016-4487 2016-4489 2016-4490 2016-4492"

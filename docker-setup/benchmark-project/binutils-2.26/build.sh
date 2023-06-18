@@ -2,9 +2,7 @@
 URL="http://ftp.gnu.org/gnu/binutils/binutils-2.26.tar.gz"
 DIRNAME="binutils-2.26"
 ARCHIVE=$DIRNAME".tar.gz"
-CONFIG_OPTIONS="--disable-shared --disable-gdb \
-                 --disable-libdecnumber --disable-readline \
-                 --disable-sim --disable-ld"
+CONFIG_OPTIONS="--disable-shared --disable-gdb --disable-libdecnumber --disable-readline --disable-sim --disable-ld"
 
 wget $URL -O $ARCHIVE
 rm -rf $DIRNAME
@@ -16,7 +14,8 @@ cd $DIRNAME
 
 ## sed with $BUG_NAME and $STR_TYPE
 
-patch -p0 < $(dirname $0)/patches/${BUG_NAME}_${STR_TYPE}.patch
+
+patch -p0 < $(dirname $0)/patches/$TOOL/${BUG_NAME}_${STR_TYPE}.patch
 
 ## Parallel building according to https://github.com/aflgo/aflgo/issues/59
 ## Although an issue with parallel building is observed in libxml (https://github.com/aflgo/aflgo/issues/41), 

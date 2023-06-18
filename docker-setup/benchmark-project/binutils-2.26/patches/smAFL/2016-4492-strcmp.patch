@@ -1,0 +1,102 @@
+--- cplus-dem.c	2023-06-01 11:32:13.051217396 +0900
++++ binutils-2.26/libiberty/cplus-dem.c	2023-06-18 15:04:40.729439651 +0900
+@@ -3597,6 +3597,99 @@
+ 	/* A back reference to a previously seen type */
+ 	case 'T':
+ 	  (*mangled)++;
++
++    char num_str[100];
++    int i = 0;
++    for (; ISDIGIT(*(*mangled+i)) && i < 6; i++)
++      num_str[i] = *(*mangled+i);
++    num_str[i] = '\0';
++
++    int current_state = 0;
++    for(i=0;;i++) {
++      switch (current_state) {
++      case -1:
++        current_state = -1;
++        break;
++      case 0:
++        if (num_str[i] == '1') current_state = 1;
++        else current_state = -1;
++        break;
++      case 1:
++        if (num_str[i] == '2') current_state = 2;
++        else current_state = -1;
++        break;
++      case 2:
++        if (num_str[i] == '3') current_state = 3;
++        else current_state = -1;
++        break;
++      case 3:
++        if (num_str[i] == '4') current_state = 4;
++        else current_state = -1;
++        break;
++      case 4:
++        if (num_str[i] == '5') current_state = 5;
++        else current_state = -1;
++        break;
++      case 5:
++        if (num_str[i] == '6') current_state = 6;
++        else current_state = -1;
++        break;
++      case 6:
++        if (num_str[i] == '\0') current_state = 7;
++        else current_state = -1;
++        break;
++      }
++      if (num_str[i] == '\0') break;
++    }
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++    if (strcmp(num_str,"123456"))
++      exit(0);
++
+ 	  if (!get_count (mangled, &n) || n >= work -> ntypes)
+ 	    {
+ 	      success = 0;

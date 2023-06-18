@@ -7,7 +7,6 @@ scanf("%s", num_str);
 
 // implement state machine
 int current_state = 0;
-int i;
 for(i=0;;i++) {
   switch (current_state) {
   case 0:
