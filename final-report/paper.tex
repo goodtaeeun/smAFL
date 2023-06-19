@@ -1,0 +1,189 @@
+\documentclass[12pt]{sigplanconf}
+
+% The following \documentclass options may be useful:
+
+% preprint      Remove this option only once the paper is in final form.
+% 10pt          To set in 10-point type instead of 9-point.
+% 11pt          To set in 11-point type instead of 9-point.
+% authoryear    To obtain author/year citation style instead of numeric.
+
+\usepackage{amsmath}
+\usepackage{shortcut}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\newtheorem{definition}{Definition}[section]
+
+\begin{document}
+
+\special{papersize=8.5in,11in}
+\setlength{\pdfpageheight}{\paperheight}
+\setlength{\pdfpagewidth}{\paperwidth}
+
+\titlebanner{banner above paper title}        % These are ignored unless
+\preprintfooter{short description of paper}   % 'preprint' option specified.
+
+\title{Title Text}
+\subtitle{Subtitle Text, if any}
+
+\authorinfo{Jaeho Kim}
+{KAIST \\
+    Daejeon, South Korea
+}
+{oojahooo@kaist.ac.kr}
+\authorinfo{Tae Eun Kim}
+{KAIST \\
+    Daejeon, South Korea
+}
+{}
+\authorinfo{Seunghyeon Jeong}
+{KAIST \\
+    Daejeon, South Korea
+}
+{}
+\authorinfo{Kihwan Kim}
+{KAIST \\
+    Daejeon, South Korea
+}
+{}
+
+\maketitle
+
+\begin{abstract}
+    This is the text of the abstract.
+\end{abstract}
+
+\section{Introduction}
+Fuzzing is a technique that is widely applied in the real world with its simple intuition and excellent applicability.
+For example, Google provides a large platform named OSS-Fuzz for open source software. Developers can upload their open
+source project to this platform and get reports about bugs that founded by executing the fuzzer. Actually, OSS-Fuzz has
+helped identify and fix over 8,900 vulnerabilities and 28,000 bugs across 850 projects~\footnote{https://github.com/google/oss-fuzz\#trophies}.
+
+Greybox fuzzing is a generally used fuzzing technique that explores the program guided by code coverage. It mutates the
+seed inputs in a way that increases code coverage. The term `Greybox' means that the fuzzer does not use whole information
+of program's code, but it uses only code coverage information.
+
+\begin{figure}[h]
+    \cFormat
+    \lstinputlisting[]{figure/ex1.c}
+    \hrule width \hsize height .33pt
+    \caption{Condition Example of a Simple Program that Takes String Input}
+    \label{fig:string-example}
+  \end{figure}
+
+Because of the aforementioned characteristic of greybox fuzzer, it struggle with the absence of code coverage. Especially,
+it is challenging for greybox fuzzer if there are conditions with no intermediate code coverage. Figure~\ref{fig:string-example}
+shows the example of the condition with no intermediate code coverage. At the line 6, the input argument should be exactly
+``HELLO'' in order to execute true branch and crash statement at line 8. So executing with input string ``HELL'' and
+``HEAVEN'' respectively have same code coverage. It is fatal problem for mutator in greybox fuzzing. ``HELL'' is more
+similar (i.e. less edit distance) with ``HELLO'' than ``HEAVEN'', so it can make ``HELLO'' by adding only one character,
+but the fuzzer evaluates those two inputs are same effectiveness. Therefore the fuzzer makes more insignificant inputs,
+and it takes too much time.
+
+To overcome this problem, we present a new task for encoding the value coverage in string domain, using finite state machine,
+and combine it with directed fuzzing technique. Directed fuzzing is a new technique of fuzzing that aims a specific location
+of the program. So it is more efficient than greybox fuzzing when we want to find an input that causes program to crash
+at specific location.
+
+\section{Overview}
+\subsection{Finite State Machine}
+Finite state machine is a useful structured representation that represents a program's behavior. In general, a program is
+a transition system. Every program has states and transition functions. So we can express a program defining states and
+transition function. Actually, Depending on how the state and transition function are defined, an infinite number of states
+may be required to express a program. But in a specific domain, we can represent it using finite number of states. So we
+utilize the finie state machine for only representing conditional expression containing string library functions.
+
+We define finite state machine like below for using our domain.
+
+\begin{definition}
+    $(Q, \Sigma, \delta, q_0, F)$ is a finite state machine where $Q$ is finite set of states, $\Sigma$ is a set of input
+    symbol, especially ascii characters in our domain, $\delta : (Q \times \Sigma) \rightarrow Q$ is a partial function
+    that takes current state and current input symbol, $q_0$ is initial state (i.e. state that input symbol is empty string),
+    and $F$ is a set of accepted (final) states.
+\end{definition}
+
+\subsection{Examples and Methods}
+
+\begin{figure}[h]
+    \begin{subfigure}[t]{0.45\textwidth}
+        \cFormat
+        \lstinputlisting[]{figure/strcmp.c}
+        \hrule width \hsize height .33pt
+        \caption{Scenario that uses strcmp function}
+        \label{fig:strcmp}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.45\textwidth}
+        \cFormat
+        \lstinputlisting[]{figure/strstr.c}
+        \hrule width \hsize height .33pt
+        \caption{Scenario that uses strstr function}
+        \label{fig:strstr}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.45\textwidth}
+        \cFormat
+        \lstinputlisting[]{figure/atoi.c}
+        \hrule width \hsize height .33pt
+        \caption{Scenario that uses atoi function}
+        \label{fig:atoi}
+    \end{subfigure}
+    \caption{Three scenarios that usually occurs in many programs}
+    \label{fig:scenarios}
+\end{figure}
+
+We choose three scenarios that usually occurs in many programs that take string inputs, 1) using \verb|strcmp| function
+in conditional expression, 2) using \verb|strstr| function in conditional expression, 3) using \verb|atoi| function in
+conditional expression. Figure~\ref{fig:scenarios} is the simple code examples that contains our scenarios.
+
+Each scenario makes greybox fuzzer struggle with the absence of code coverage. In Figure~\ref{fig:strcmp}, we have to find
+exactly ``123456'' as an crashing input. In Figure~\ref{fig:strstr}, we should find the string that contains ``1234'' as
+an crashing input. In Figure~\ref{fig:atoi}, we have to find the string that represents the integer 123456.
+
+To make new coverage method for these scenarios, we use the finite state machine. Finite state machine can express the
+sequence of transition from starting input symbol to final input symbol, and check whether the input string is accepted.
+
+\begin{figure}[h]
+    \begin{subfigure}[t]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{figure/strcmp.png}
+        \caption{Contructed FSM for strcmp}
+        \label{fig:fsm-strcmp}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{figure/strstr.png}
+        \caption{Contructed FSM for strstr}
+        \label{fig:fsm-strstr}
+    \end{subfigure}
+    % \begin{subfigure}[t]{0.45\textwidth}
+    %     \includegraphics{figure/atoi.png}
+    %     \caption{Contructed FSM for atoi}
+    %     \label{fig:fsm-atoi}
+    % \end{subfigure}
+    \caption{Constructed finite state machines for each scenario}
+    \label{fig:fsm} 
+\end{figure}
+
+So we construct the finite state machines for each scenario, and add it as new conditional statement these to original code.
+Figure~\ref{fig:fsm} shows the FSMs constructed for each scenario. And we implement these FSMs in real program as adding
+new code.
+
+You can see the detailed implementation in our repo~\footnote{https://github.com/goodtaeeun/smAFL}.
+
+\section{Evaluation}
+We have an experiment for comparing the efficiency of our technique with traditional fuzzers. So our baselines are traditional
+greybox fuzzer, AFL~\cite{aflfuzz}, and traditional directed fuzzer, AFLGO~\cite{bohme:ccs:2017}.
+
+\subsection{Experimental Setup}
+
+\subsection{Result}
+
+\appendix
+\section{Appendix Title}
+
+This is the text of the appendix, if you need one.
+
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+
+\end{document}

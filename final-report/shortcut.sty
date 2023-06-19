@@ -1,0 +1,53 @@
+\usepackage{xcolor}
+\usepackage{listings}
+
+%%% Code Listing
+% There exists a conflict between listings and lstlinebgrd.
+% The following is an workaround
+% Reference: https://tex.stackexchange.com/a/451538
+\makeatletter
+\@ifpackagelater{listings}{2018/09/02}{%
+    \makeatother
+    \makeatletter
+    \let\old@lstKV@SwitchCases\lstKV@SwitchCases
+    \def\lstKV@SwitchCases#1#2#3{}
+    \makeatother
+    \usepackage{lstlinebgrd}
+    \makeatletter
+    \let\lstKV@SwitchCases\old@lstKV@SwitchCases
+    \lst@Key{numbers}{none}{%
+        \def\lst@PlaceNumber{\lst@linebgrd}%
+        \lstKV@SwitchCases{#1}%
+        {none:\\%
+            left:\def\lst@PlaceNumber{\llap{\normalfont
+                    \lst@numberstyle{\thelstnumber}\kern\lst@numbersep}\lst@linebgrd}\\%
+            right:\def\lst@PlaceNumber{\rlap{\normalfont
+                    \kern\linewidth \kern\lst@numbersep
+                    \lst@numberstyle{\thelstnumber}}\lst@linebgrd}%
+        }{\PackageError{Listings}{Numbers #1 unknown}\@ehc}}
+    \makeatother
+}{%
+    \makeatother
+    \usepackage{lstlinebgrd}
+}
+
+\lstset{basicstyle=\tt, language=C, commentstyle={\color{blue}}}
+\newcommand{\cFormat}{
+    \lstset{
+        xleftmargin=5pt,
+        columns=flexible,
+        basicstyle={\small\ttfamily},
+        escapeinside={(*@}{@*)},
+        numbers=left,
+        numbersep=5pt,
+        emph={SWFblock,SWF_Parserstruct,SWF_MORPHGRADREC},
+        emphstyle={\color{teal}},
+        morekeywords={FILE},
+        keywordstyle={\color{purple}},
+        classoffset=1, % starting new class
+        otherkeywords={0,1,2,3,4,5,6,7,8,9},
+        morekeywords={0,1,2,3,4,5,6,7,8,9},
+        keywordstyle={\color{orange}},
+        classoffset=0,
+    }
+}
