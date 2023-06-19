@@ -1,0 +1,34 @@
+\begin{table}
+    \small
+     \caption{Crash reproduction results of smAFL and the baseline tools.
+             %
+             Each reported number is a median over 40 repeated experiments.
+             %
+             N.A. indicates that the tool could not produce a median TTE,
+             which means that it was not able to reproduce the bug for more than half of the repeated
+             experiments. The parentheses denote how many times the fuzzer was able to
+             reproduce the bug. Unlike TTE, this number is better when bigger.
+             %
+             For each target (i.e., each row), the best result is marked with
+             bold font and an asterisk.
+             %
+             \# Best perf. denotes the number of targets for which the tool has the best performance among all the other tools.}
+         \begin{tabular}{@{}l@{\ \ \ \ \ \ \ \ \ }l@{\ \ \ \ \ \ \ }l@{\ \ \ \ \ \ \ }l@{\ \ \ \ \ \ \ \ \ \ \ }c@{\ \ \ \ \ \ \ \ }c@{}}\toprule
+            \textbf{Scenario}	&	\multicolumn{1}{c}{\textbf{CVE}}	&	\multicolumn{1}{c}{		AFL		}	&	\multicolumn{1}{r}{		AFLGo		}	&	\multicolumn{1}{c}{		smAFL		}	\\\midrule
+            \multirow[c]{3}{*}{\texttt{strcmp}}	&	2016-4487	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\
+                &	2016-4489	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\
+                &	2016-4490	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\
+                &	2016-4492	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\\midrule
+            \multirow[c]{3}{*}{\texttt{strstr}}	&	2016-4487	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\
+                &	2016-4489	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\
+                &	2016-4490	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\
+                &	2016-4492	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\\midrule
+            \multirow[c]{3}{*}{\texttt{atoi}}	&	2016-4487	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\
+                &	2016-4489	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\
+                &	2016-4490	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\
+                &	2016-4492	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\\midrule
+            \multicolumn{2}{c}{\textbf{\# Best perf.}}			&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	&	\multicolumn{1}{r}{	\text{	100	}	}	\\\bottomrule
+
+     \end{tabular}
+     \label{tbl:main-table}
+ \end{table}

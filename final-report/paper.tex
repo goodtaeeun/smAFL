@@ -173,12 +173,38 @@ greybox fuzzer, AFL~\cite{aflfuzz}, and traditional directed fuzzer, AFLGO~\cite
 
 \subsection{Experimental Setup}
 
+\subsubsection{Benchmarks}
+We use the following benchmarks for our experiment: CVE-2016-4487, CVE-2016-4489, CVE-2016-4490, CVE-2016-4492.
+These benchmarks are originally from the paper of AFLGO~\cite{bohme:ccs:2017}.
+We chose these benchmarks as they are realistic and are used frequently in the field of directed fuzzing.
+However, the benchmarks required changes to fit our target domain.
+Thus, we modified the benchmarks by applying some patches that insert a guarding condition that uses user input strings.
+The patches can be found in our repository under the directory
+\texttt{docker-setup/benchmark-project}
+\texttt{/binutils-2.26/patches}.
+
+\subsection{Baselines}
+In order to evaluate the effectiveness of our technique, we compare our technique with two baselines: AFL and AFLGO.
+AFL is an undirected greybox fuzzer that is widely used in the field of fuzzing. We use AFL to compare the effectiveness
+of the AFLGo and the further enhancement made by our tool.
+
+\subsection{Evaluation Criteria}
+In order to evaluate the directed fuzzers, we compare the time taken to reproduce a bug lying in the target location.
+Whenever a fuzzer finds a bug, we record the time taken to reproduce the bug.
+After the fuzzing session, we replay the found crashing inputs against the program that is built with ASAN options.
+Then, by comparing the ASAN error log, we can determine whether the desired bug is reproduced or not.
+Refer to the script \texttt{scripts/triage.py} for the detailed criteria for each target bug.
+
+\subsection{Experimental Specification}
+We run each fuzzer for 10000 seconds on each target.
+We also repeat the experiment for 40 times to mitigate the effect of randomness in fuzzing.
+Then, we use the median value of the time take to reproduce the target bug among the 40 iterations.
+
+
 \subsection{Result}
 
-\appendix
-\section{Appendix Title}
+\input{figure/main-table}
 
-This is the text of the appendix, if you need one.
 
 
 \bibliographystyle{ACM-Reference-Format}
