@@ -12,5 +12,4 @@
 *.lot
 *.toc
 auto/
-*.pdf
 .DS_Store
