@@ -24,8 +24,7 @@
 \titlebanner{banner above paper title}        % These are ignored unless
 \preprintfooter{short description of paper}   % 'preprint' option specified.
 
-\title{Title Text}
-\subtitle{Subtitle Text, if any}
+\title{Improving Directed Fuzzing by Projecting String Domain Input to Finite State Machine}
 
 \authorinfo{Jaeho Kim}
 {KAIST \\
@@ -153,11 +152,11 @@ sequence of transition from starting input symbol to final input symbol, and che
         \caption{Contructed FSM for strstr}
         \label{fig:fsm-strstr}
     \end{subfigure}
-    % \begin{subfigure}[t]{0.45\textwidth}
-    %     \includegraphics{figure/atoi.png}
-    %     \caption{Contructed FSM for atoi}
-    %     \label{fig:fsm-atoi}
-    % \end{subfigure}
+    \begin{subfigure}[t]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{figure/atoi.png}
+        \caption{Contructed FSM for atoi}
+        \label{fig:fsm-atoi}
+    \end{subfigure}
     \caption{Constructed finite state machines for each scenario}
     \label{fig:fsm} 
 \end{figure}
