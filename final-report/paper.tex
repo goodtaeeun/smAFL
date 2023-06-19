@@ -50,7 +50,12 @@
 \maketitle
 
 \begin{abstract}
-    This is the text of the abstract.
+    Fuzzing is a good technique for finding bug in target program. There is a
+    traditional fuzzing technique that uses only code coverage, called greybox
+    fuzzing. But in string domain, it struggle with the absence of code coverage.
+    So we present a effective transformation of target code, using the concept of
+    finite state machine, and combining to directed fuzzing. Our implementation
+    can reproduce bug of target location more efficiently than traditional fuzzer.
 \end{abstract}
 
 \section{Introduction}
@@ -168,8 +173,11 @@ new code.
 You can see the detailed implementation in our repo~\footnote{https://github.com/goodtaeeun/smAFL}.
 
 \section{Evaluation}
+\label{eval}
 We have an experiment for comparing the efficiency of our technique with traditional fuzzers. So our baselines are traditional
 greybox fuzzer, AFL~\cite{aflfuzz}, and traditional directed fuzzer, AFLGO~\cite{bohme:ccs:2017}.
+
+\input{figure/main-table}
 
 \subsection{Experimental Setup}
 
@@ -200,15 +208,29 @@ We run each fuzzer for 10000 seconds on each target.
 We also repeat the experiment for 40 times to mitigate the effect of randomness in fuzzing.
 Then, we use the median value of the time take to reproduce the target bug among the 40 iterations.
 
-
 \subsection{Result}
+Table~\ref{tbl:main-table} shows the result of our experiment. The baselines, AFL, AFLGo, cannot reproduce the bugs at most.
+The best performance of AFL is in scenario \verb|atoi|, case 2016-4492, but even in this case, AFL reproduce only three
+times during 40 repeated experiments. In most cases, AFL and AFLGo never reproduced one.
 
-\input{figure/main-table}
+In contrast, our tool, smAFL reproduced the bug for more than half of the repeated experiments (i.e. more than 20 times)
+in every case. And the efficiency of our tool is also worthwhile. The worst case, scenario \verb|strcmp| CVE id 2016-4492,
+takes less than 40 minutes. It is pretty early compared to the timeout of each experiment, 167 minutes. If a developer use
+our tool, then he/she can find the bug and crashing input in 40 minutes.
 
+\section{Conclusion}
+As we can see in section~\ref{eval}, our scenarios effectively block the traditional greybox fuzzer. The conditions using
+string library functions make fuzzer hard to find accepted string input. Because the code coverage information that used
+for greybox fuzzer does not says how the seed inputs are closed from target string.
 
+Unlike this, our implementation encodes the distance between a seed input and target string as a code coverage information.
+Therefore the directed fuzzer can find the bug more efficiently than traditional fuzzer.
+
+\section{Future Works}
+Our experiments showed that the code coverage modification technique using FSM is sufficiently effective in the string
+domain. But we implemented only three scenarios, so we think it needs to become automated tool for all string functions.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
-
 
 \end{document}
